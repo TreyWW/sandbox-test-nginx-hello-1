@@ -1,0 +1,38 @@
+{
+  "containers": [
+    {
+      "type": "web",
+      "name": "My-Backend-App",
+      "image": "specific_image:latest",
+      "dockerfile": "./Dockerfile",
+      "ports": [
+        {
+          "type": "external",
+          "port": 80
+        }
+      ],
+      "environmentVariables": [
+        {
+          "key": "API_BASE_URL",
+          "value": "https://api.example.com"
+        }
+      ]
+    },
+    {
+        "type": "database"
+      "name": "My-Backend-App"
+      "image": "postgres:latest"
+      "ports": [
+        {
+          "type": "internal",
+          "port": 5432
+        }
+      ],
+      "environmentVariables": [
+        { 
+          "key": "POSTGRES_PASSWORD"
+          "value": "postgres"
+        }
+      ]
+  ]
+}

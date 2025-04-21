@@ -1,38 +1,63 @@
 {
+  "version": 1,
   "containers": [
     {
-      "type": "web",
-      "name": "My-Backend-App",
-      "image": "specific_image:latest",
-      "dockerfile": "./Dockerfile",
+      "type": "database",
+      "name": "postgres",
+      "image": "postgres:15",
       "ports": [
         {
-          "type": "external",
-          "port": 80
+          "port": 5432,
+          "protocol": "TCP",
+          "exposed": false
         }
       ],
-      "environmentVariables": [
-        {
-          "key": "API_BASE_URL",
-          "value": "https://api.example.com"
-        }
+      "environment_variables": [
+        { "key": "POSTGRES_USER", "value": "django" },
+        { "key": "POSTGRES_PASSWORD", "value": "django" },
+        { "key": "POSTGRES_DB", "value": "app_db" }
+      ],
+      "cmd_override": [
+        "sh",
+        "-c",
+        "docker-entrypoint.sh postgres & sleep 5 && psql -U $POSTGRES_USER -d postgres -c 'CREATE DATABASE app_db;' && wait"
       ]
     },
     {
-        "type": "database"
-      "name": "My-Backend-App"
-      "image": "postgres:latest"
+      "type": "database",
+      "name": "redis",
+      "image": "redis:7",
       "ports": [
         {
-          "type": "internal",
-          "port": 5432
+          "port": 6379,
+          "protocol": "TCP",
+          "exposed": false
         }
       ],
-      "environmentVariables": [
-        { 
-          "key": "POSTGRES_PASSWORD"
-          "value": "postgres"
+      "environment_variables": []
+    },
+    {
+      "type": "app",
+      "name": "django-app",
+      "image": null,
+      "ports": [
+        {
+          "port": 8000,
+          "protocol": "TCP",
+          "exposed": true,
+          "app_protocol": "HTTP"
         }
-      ]
+      ],
+      "environment_variables": [
+        { "key": "DEBUG", "value": "1" },
+        { "key": "DB_NAME", "value": "app_db" },
+        { "key": "DATABASE_URL", "value": "postgres://django:django@postgres:5432/app_db" },
+        { "key": "REDIS_URL", "value": "redis://redis:6379/0" }
+      ],
+      "dependency": {
+        "container": "postgres",
+        "condition": "START"
+      }
+    }
   ]
 }

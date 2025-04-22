@@ -9,6 +9,7 @@
         {
           "port": 5432,
           "protocol": "TCP",
+          "app_protocol": null,
           "exposed": false
         }
       ],
@@ -31,6 +32,7 @@
         {
           "port": 6379,
           "protocol": "TCP",
+          "app_protocol": null,
           "exposed": false
         }
       ],

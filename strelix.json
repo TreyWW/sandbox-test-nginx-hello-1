@@ -1,65 +1,21 @@
 {
+  "$schema": "./strelix.json",
   "version": 1,
   "containers": [
     {
-      "type": "database",
-      "name": "postgres",
-      "image": "postgres:15",
-      "ports": [
-        {
-          "port": 5432,
-          "protocol": "TCP",
-          "app_protocol": null,
-          "exposed": false
-        }
-      ],
-      "environment_variables": [
-        { "key": "POSTGRES_USER", "value": "django" },
-        { "key": "POSTGRES_PASSWORD", "value": "django" },
-        { "key": "POSTGRES_DB", "value": "app_db" }
-      ],
-      "cmd_override": [
-        "sh",
-        "-c",
-        "docker-entrypoint.sh postgres & sleep 5 && psql -U $POSTGRES_USER -d postgres -c 'CREATE DATABASE app_db;' && wait"
-      ]
-    },
-    {
-      "type": "database",
-      "name": "redis",
-      "image": "redis:7",
-      "ports": [
-        {
-          "port": 6379,
-          "protocol": "TCP",
-          "app_protocol": null,
-          "exposed": false
-        }
-      ],
-      "environment_variables": []
-    },
-    {
-      "type": "app",
-      "name": "django-app",
+      "name": "nginx",
       "image": null,
+      "type": "app",
+      "essential": true,
       "ports": [
         {
-          "port": 8000,
+          "name": "main",
           "protocol": "TCP",
-          "exposed": true,
-          "app_protocol": "HTTP"
+          "app_protocol": "HTTP",
+          "port": 80,
+          "exposed": true
         }
-      ],
-      "environment_variables": [
-        { "key": "DEBUG", "value": "1" },
-        { "key": "DB_NAME", "value": "app_db" },
-        { "key": "DATABASE_URL", "value": "postgres://django:django@postgres:5432/app_db" },
-        { "key": "REDIS_URL", "value": "redis://redis:6379/0" }
-      ],
-      "dependency": {
-        "container": "postgres",
-        "condition": "START"
-      }
+      ]
     }
   ]
 }

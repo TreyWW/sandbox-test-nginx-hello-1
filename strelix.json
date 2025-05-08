@@ -1,0 +1,21 @@
+{
+  "$schema": "./strelix.json",
+  "version": 1,
+  "containers": [
+    {
+      "name": "nginx",
+      "image": null,
+      "type": "app",
+      "essential": true,
+      "ports": [
+        {
+          "name": "main",
+          "protocol": "TCP",
+          "app_protocol": "HTTP",
+          "port": 8000,
+          "exposed": true
+        }
+      ]
+    }
+  ]
+}

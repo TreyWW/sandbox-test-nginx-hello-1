@@ -10,8 +10,8 @@
       "ports": [
         {
           "name": "main",
-          "protocol": "TCP",
-          "app_protocol": "HTTP",
+          "protocol": "tcp",
+          "app_protocol": "http",
           "port": 8000,
           "exposed": true
         }

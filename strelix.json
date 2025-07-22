@@ -3,7 +3,7 @@
   "version": 1,
   "containers": [
     {
-      "name": "nginx",
+      "name": "ghcr.io/mccutchen/go-httpbin:2.18.3",
       "image": null,
       "type": "app",
       "essential": true,

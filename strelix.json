@@ -12,7 +12,7 @@
           "name": "main",
           "protocol": "tcp",
           "app_protocol": "http",
-          "port": 8000,
+          "port": 8080,
           "exposed": true
         }
       ]

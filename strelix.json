@@ -1,0 +1,44 @@
+{
+  "$schema": "./strelix.json",
+  "version": 1,
+  "containers": [
+    {
+      "name": "httpbin",
+      "image": "ghcr.io/mccutchen/go-httpbin:2.18.3",
+      "type": "app",
+      "essential": true,
+      "ports": [
+        {
+          "name": "httpbin",
+          "protocol": "tcp",
+          "app_protocol": "http",
+          "port": 8080,
+          "exposed": false
+        }
+      ]
+    },
+    {
+      "name": "nginx",
+      "image": null,
+      "type": "app",
+      "essential": true,
+      "ports": [
+        {
+          "name": "main",
+          "protocol": "tcp",
+          "app_protocol": "http",
+          "port": 9999,
+          "exposed": true
+        }
+      ],
+      "dependency": {
+        "container": "httpbin",
+        "condition": "START"
+      },
+      "build": {
+        "context": "./nginx",
+        "dockerfile": "Dockerfile"
+      }
+    }
+  ]
+}
